@@ -9,9 +9,7 @@ public class PlayerMovement : MonoBehaviour {
 
     [SerializeField]
     float jumpStrength = 5;
-    
-    private bool isOnGround;
-
+       
     [SerializeField]
     Transform groundDetectCenterPoint;
 
@@ -21,6 +19,10 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     LayerMask whatCountsAsGround;
 
+    private float horizontalInput;
+    private bool isOnGround;
+    private bool shouldJump;
+    private Vector2 jumpForce;
     Rigidbody2D myRigidbody;
 	
     // Use this for initialization
@@ -30,15 +32,45 @@ public class PlayerMovement : MonoBehaviour {
         //transform.position = new Vector3(0,0,0);	
 
         myRigidbody = GetComponent<Rigidbody2D>();
+        jumpForce = new Vector2(0, jumpStrength);
     }
 	
 	// Update is called once per frame
 	private void Update ()
     {
+        //When you use the physics engine, you don't normally want to use physics based functions in update. If you start calling a bunch of them, it begins to get expensive.
+        //Use FixedUpdate for any physics things.
+        GetMovementInput();
+        GetJumpInput();
         UpdateIsOnGround();
-        Move();
-        Jump();
         
+        //Physics2D.gravity = new Vector2(0, 20);
+        //Set up a variable so you're not creating a new Vector2 each time.
+
+        //Keeping velocity in the x direction when roatating gravity -- keep the x-velocity constant when you multiply the Vector2 y value by a negative value????
+    }
+
+    private void GetJumpInput()
+    {
+        if (Input.GetButtonDown("Jump") && isOnGround)
+        {
+            shouldJump = true;
+        }
+    }
+
+    private void GetMovementInput()
+    {
+        horizontalInput = Input.GetAxis("Horizontal");
+    }
+
+    private void FixedUpdate()
+    {
+        //Called once every fixed increment of time; framerate independent. Can also adjust - but not recommended.
+        Move();
+        //There is a catch: because it is being called every 5 frames for example, it's not being called as often.
+        Jump();
+
+
     }
 
     private void UpdateIsOnGround()
@@ -59,17 +91,23 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Jump()
     {
-        if (Input.GetButtonDown("Jump") && isOnGround)
+        if (shouldJump)
         {
-            myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, jumpStrength);
+            //Learn about addforce!!!!
+            //myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, jumpStrength);
+            myRigidbody.AddForce(jumpForce, ForceMode2D.Impulse);
             isOnGround = false;
-
+            shouldJump = false;
         }
     }
 
     private void Move()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
+        //Whenever you're doing any sort of moving in update. use Time.deltaTime.
+        //It represents the amount of time its been since the last time we've call update. We are always moving the player the same amount using this.
+        
+        //Rigidbody means using physics. So... fixedUpdate. It also isn't need in fixedupdate
+        //Two choices: put it in FixedUpdate or multiply by Time.deltaTime.
         myRigidbody.velocity = new Vector2(horizontalInput * movementSpeed, myRigidbody.velocity.y);
     }
 }
