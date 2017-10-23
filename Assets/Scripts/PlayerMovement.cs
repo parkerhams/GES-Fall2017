@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     LayerMask whatCountsAsGround;
 
+    private AudioSource audioSource;
     private float horizontalInput;
     private bool isOnGround;
     private bool shouldJump;
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour {
         //This code teleports the game object to a new location
         //transform.position = new Vector3(0,0,0);	
 
+        audioSource = GetComponent<AudioSource>();
         myRigidbody = GetComponent<Rigidbody2D>();
         jumpForce = new Vector2(0, jumpStrength);
     }
@@ -98,6 +100,8 @@ public class PlayerMovement : MonoBehaviour {
             myRigidbody.AddForce(jumpForce, ForceMode2D.Impulse);
             isOnGround = false;
             shouldJump = false;
+            audioSource.Play();
+            
         }
     }
 
