@@ -968,15 +968,15 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b893ba4c120d92f42a5bfdbfd8f0cb88, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3a2f7295ca6d81a4383bd48823378d49, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.63
+  m_Pitch: 0.75
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 108
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1369,11 +1369,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 14
       objectReference: {fileID: 0}
-    - target: {fileID: 114767025796662898, guid: 4730eccbe2906194aaa5612abf8fa09e,
+    - target: {fileID: 82492569861468098, guid: 4730eccbe2906194aaa5612abf8fa09e,
         type: 2}
-      propertyPath: coinCountText
-      value: 
-      objectReference: {fileID: 1501497864}
+      propertyPath: m_Volume
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 82492569861468098, guid: 4730eccbe2906194aaa5612abf8fa09e,
+        type: 2}
+      propertyPath: Priority
+      value: 204
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4730eccbe2906194aaa5612abf8fa09e, type: 2}
   m_IsPrefabParent: 0
