@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    public static Transform playerSpawnPoint;
+    public static Checkpoint currentlyActiveCheckpoint;
 
     [SerializeField]
     private float activatedScale;
@@ -21,9 +21,7 @@ public class Checkpoint : MonoBehaviour
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.color = deactivatedColor;
-
-        transform.localScale *= deactivatedScale;
+        DeactivateCheckpoint();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -37,11 +35,23 @@ public class Checkpoint : MonoBehaviour
         }
     }
 
+    private void DeactivateCheckpoint()
+    {
+        isActive = false;
+        transform.localScale = Vector3.one * deactivatedScale;
+        spriteRenderer.color = deactivatedColor;
+    }
+
     private void ActivateCheckpoint()
     {
+        if(currentlyActiveCheckpoint != null)
+        {
+            currentlyActiveCheckpoint.DeactivateCheckpoint();
+        }
+        
         isActive = true;
-        playerSpawnPoint = gameObject.transform;
-        transform.localScale = transform.localScale * activatedScale;
+        currentlyActiveCheckpoint = this;
+        transform.localScale = Vector3.one * activatedScale;
         spriteRenderer.color = activatedColor;
     }
 }

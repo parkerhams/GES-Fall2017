@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Hazard : MonoBehaviour {
+public class KillPlayerUponLeaving : MonoBehaviour
+{
+    private void Awake()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = false;
+    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<RespawnPlayer>().Respawn();
+ 
         }
     }
-
 }
